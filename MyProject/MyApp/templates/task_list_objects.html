@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>Task List</title>
+</head>
+<body>
+	<div id="content">
+		<ul>
+			{% for item in tasks %}
+				<li>Task Name: {{ item.name }}</li>
+			{% endfor %}
+		</ul>
+	</div>
+</body>
+</html>
