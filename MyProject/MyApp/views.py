@@ -1,8 +1,19 @@
 from django.shortcuts import render, HttpResponse
+from django.contrib.auth.decorators import login_required
 from .models import Task, TaskGroup
 
+@login_required
 def home(request):
-	return HttpResponse("hello world")
+	# return HttpResponse("hello world")
+	ctx = {
+		'tasks':[
+			"task1",
+			"task2",
+			"task3",
+			"task4"
+		]
+	}
+	return render(request, 'extendedTemplate.html', ctx)
 
 def tasks(request):
 	ctx = {
