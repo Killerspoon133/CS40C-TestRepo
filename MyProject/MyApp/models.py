@@ -19,7 +19,7 @@ class MyNewTable(models.Model):
 	custom_id = models.BigAutoField(primary_key=True)
 	name = models.CharField(max_length=50)
 
-class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	year_level = models.IntegerField()
-	course = models.CharField(max_length=10)
+# class Profile(models.Model):
+# 	user = models.OneToOneField(User, on_delete=models.CASCADE)
+# 	year_level = models.IntegerField()
+# 	course = models.CharField(max_length=10)
