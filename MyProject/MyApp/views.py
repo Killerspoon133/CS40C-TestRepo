@@ -51,8 +51,22 @@ def basicTemplate(request):
 	return render(request, 'basicParams.html')
 
 def tasksInDatabase(request):
-	#items = TaskGroup.objects.all()
-	items = TaskGroup.objects.filter(name__contains="test")
+
+	if (request.method == "POST"):
+		taskgroup = TaskGroup()
+		taskgroup.name = request.POST.get('task_name')
+		taskgroup.save()
+		items = TaskGroup.objects.all()
+		#items = TaskGroup.objects.filter(name__contains="test")
+		ctx = {"taskgroups":items}
+
+		return render(request, 'task_list_objects.html', ctx)
+
+	items = TaskGroup.objects.all()
+	ctx = {"taskgroups":items}
+	print(f"request type: {request.method}")
+	print(f"ctx: {ctx}")
+
 	return render(request, 'task_list_objects.html', {'tasks': items})
 
 def populateDatabase(request):

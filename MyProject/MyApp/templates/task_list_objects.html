@@ -11,5 +11,13 @@
 			{% endfor %}
 		</ul>
 	</div>
+	<form method="post">
+		{% csrf_token %}
+		<label for="task_name">
+			<span>Task Name</span>
+			<input type="text" id="task_name" name="task_name">
+		</label>
+		<button type="submit">Submit</button>
+	</form>
 </body>
 </html>
