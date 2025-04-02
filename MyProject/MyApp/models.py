@@ -7,6 +7,7 @@ class TaskGroup(models.Model):
 	name = models.CharField(max_length=50)
 	remarks = models.CharField(max_length=50, default="")
 	otherRemarks = models.CharField(max_length=50, default="")
+	groupPicture = models.ImageField(upload_to='images/', null=True)
 
 class Task(models.Model):
 	name = models.CharField(max_length=200)

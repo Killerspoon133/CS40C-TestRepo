@@ -1,6 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Task, TaskGroup
+from .forms import TaskGroupForm, TaskGroupOtherForm
 
 @login_required
 def home(request):
@@ -50,14 +51,17 @@ def basicParams(request, num=1):
 def basicTemplate(request):
 	return render(request, 'basicParams.html')
 
-def tasksInDatabase(request):
+def populateDatabase(request):
+	TaskGroup.objects.create(name="createdTaskGroup", remarks="something happened")
+	return render(request, 'task_list_objects.html')
+
+def oldTasksInDatabase(request):
 
 	if (request.method == "POST"):
 		taskgroup = TaskGroup()
 		taskgroup.name = request.POST.get('task_name')
 		taskgroup.save()
 		items = TaskGroup.objects.all()
-		#items = TaskGroup.objects.filter(name__contains="test")
 		ctx = {"taskgroups":items}
 
 		return render(request, 'task_list_objects.html', ctx)
@@ -67,8 +71,27 @@ def tasksInDatabase(request):
 	print(f"request type: {request.method}")
 	print(f"ctx: {ctx}")
 
-	return render(request, 'task_list_objects.html', {'tasks': items})
+	return render(request, 'MyApp/task_group_list.html', {'tasks': items})
 
-def populateDatabase(request):
-	TaskGroup.objects.create(name="createdTaskGroup", remarks="something happened")
-	return render(request, 'task_list_objects.html')
+def tasksInDatabase(request):
+
+	if (request.method == "POST"):
+		form = TaskGroupForm(request.POST, request.FILES)
+
+		if form.is_valid():
+			form.save() # <-- for forms.ModelForm stuff
+			# TaskGroup.objects.create(
+			# 	name=form.cleaned_data['name'],
+			# 	remarks=form.cleaned_data['remarks']
+			# )
+
+			return redirect('tasksInDatabase')
+
+	form = TaskGroupForm()
+	items = TaskGroup.objects.all()
+	ctx = {"taskgroups":items}
+
+	print(f"request type: {request.method}")
+	print(f"ctx: {ctx}")
+
+	return render(request, 'MyApp/task_group_list.html', {'tasks': items, 'task_form':form})

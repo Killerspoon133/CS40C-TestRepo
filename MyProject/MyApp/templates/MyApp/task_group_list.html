@@ -1,0 +1,15 @@
+{% extends 'navbar.html' %}
+{% block title %}Task Groups{% endblock %}
+{% block content %}
+	<h1>Task Group List</h1>
+	<ul>
+		{% for item in tasks %}
+			<li>Task Group Name: {{ item.name }}</li>
+		{% endfor %}
+	</ul>
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ task_form.as_p }}
+		<button type="submit">Submit</button>
+	</form>
+{% endblock %}
